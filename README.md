@@ -19,3 +19,7 @@ nest g controller modules/controller_name
 ## Create Service
 
 nest g service modules/service_name
+
+## Class Validator (Dto)
+
+npm install class-validator
