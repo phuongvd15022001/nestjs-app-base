@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './modules/app/app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { GLOBAL_CONFIG } from './configs/global.config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -16,18 +17,27 @@ async function bootstrap() {
   );
 
   // Swagger
-  const config = new DocumentBuilder()
-    .setTitle('Nest App Base')
-    .setDescription('API Documentation')
-    .setVersion('1.0')
-    .addBearerAuth()
-    .addSecurityRequirements('bearer')
-    .build();
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api/docs', app, document, {
-    swaggerOptions: { persistAuthorization: true },
-  });
+  if (GLOBAL_CONFIG.swagger.enabled) {
+    const config = new DocumentBuilder()
+      .setTitle(GLOBAL_CONFIG.swagger.title ?? 'Nest App Base')
+      .setDescription(GLOBAL_CONFIG.swagger.description ?? 'API Documentation')
+      .setVersion(GLOBAL_CONFIG.swagger.version ?? '1.0')
+      .addBearerAuth()
+      .addSecurityRequirements('bearer')
+      .build();
+    const document = SwaggerModule.createDocument(app, config);
+    SwaggerModule.setup(
+      GLOBAL_CONFIG.swagger.path ?? 'api/docs',
+      app,
+      document,
+      {
+        swaggerOptions: { persistAuthorization: true },
+      },
+    );
+  }
 
-  await app.listen(process.env.PORT ?? 3000);
+  await app.listen(GLOBAL_CONFIG.nest.port ?? 3000);
 }
+
+// eslint-disable-next-line @typescript-eslint/no-floating-promises
 bootstrap();

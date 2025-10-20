@@ -30,4 +30,8 @@ npm install class-transformer
 
 ## Swagger
 
-npm install --save @nestjs/swagge swagger-ui-express
+npm install --save @nestjs/swagger swagger-ui-express
+
+## ConfigModule
+
+npm install @nestjs/config
