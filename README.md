@@ -23,3 +23,11 @@ nest g service modules/service_name
 ## Class Validator (Dto)
 
 npm install class-validator
+
+## Class Transformer
+
+npm install class-transformer
+
+## Swagger
+
+npm install --save @nestjs/swagge swagger-ui-express
