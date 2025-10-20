@@ -11,7 +11,9 @@ import { CreateUserDto } from './dto/request/create-user.dto';
 import { CreateUsersDto } from './dto/request/create-users.dto';
 import { UserResponseDto } from './dto/response/user.response.dto';
 import { TransformInterceptor } from 'src/shared/interceptors/transform.interceptor';
+import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Users')
 @Controller('users')
 export class UsersController {
   @Post()
@@ -26,6 +28,7 @@ export class UsersController {
 
   @UseInterceptors(new TransformInterceptor(UserResponseDto))
   @Get(':id')
+  @ApiOkResponse({ type: UserResponseDto })
   findOne(@Param('id', ParseIntPipe) id: number) {
     const todo = new UserResponseDto();
     todo.id = id;
