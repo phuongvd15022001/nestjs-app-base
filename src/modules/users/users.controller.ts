@@ -5,10 +5,12 @@ import {
   Param,
   ParseIntPipe,
   Post,
+  UseInterceptors,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/request/create-user.dto';
 import { CreateUsersDto } from './dto/request/create-users.dto';
 import { UserResponseDto } from './dto/response/user.response.dto';
+import { TransformInterceptor } from 'src/shared/interceptors/transform.interceptor';
 
 @Controller('users')
 export class UsersController {
@@ -22,6 +24,7 @@ export class UsersController {
     return `Create user with name: ${createUsersDto.users[0]?.name} and name: ${createUsersDto.users[1]?.name}`;
   }
 
+  @UseInterceptors(new TransformInterceptor(UserResponseDto))
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
     const todo = new UserResponseDto();
