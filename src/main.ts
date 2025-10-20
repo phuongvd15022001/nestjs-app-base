@@ -3,6 +3,7 @@ import { AppModule } from './modules/app/app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { GLOBAL_CONFIG } from './configs/global.config';
+import cors from 'cors';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -33,6 +34,17 @@ async function bootstrap() {
       {
         swaggerOptions: { persistAuthorization: true },
       },
+    );
+  }
+
+  // Cors
+  if (GLOBAL_CONFIG.cors.enabled) {
+    app.use(
+      cors({
+        origin: GLOBAL_CONFIG.cors.origin,
+        methods: GLOBAL_CONFIG.cors.methods,
+        credentials: GLOBAL_CONFIG.cors.credentials,
+      }),
     );
   }
 

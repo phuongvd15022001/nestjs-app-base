@@ -52,3 +52,7 @@ npx prisma migrate dev --name init
 # Generate Prisma
 
 npx prisma generate
+
+## Cors
+
+npm install cors

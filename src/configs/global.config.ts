@@ -10,7 +10,10 @@ export const GLOBAL_CONFIG = {
     path: 'api/docs',
   },
   cors: {
-    // enabled: true,
+    enabled: true,
+    origin: [process.env.FRONTEND_URL, 'http://localhost:3000'],
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    credentials: true,
   },
   security: {
     // expiresIn: 3600 * 24, // 24h
