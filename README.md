@@ -56,3 +56,7 @@ npx prisma generate
 ## Cors
 
 npm install cors
+
+## Seed Prisma
+
+npx prisma db seed
