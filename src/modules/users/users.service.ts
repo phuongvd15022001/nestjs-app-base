@@ -156,4 +156,39 @@ export class UsersService {
 
     return result.count;
   }
+
+  async findOneByEmail(email: string) {
+    const user = await this.usersRepository.findOne({
+      whereUniqueInput: {
+        email,
+      },
+    });
+
+    if (user == null) {
+      throw new NotFoundException('User not found');
+    }
+
+    return user;
+  }
+
+  async refreshToken(id: number, refreshToken: string) {
+    const checkExistUser = await this.usersRepository.findOne({
+      whereUniqueInput: { id },
+    });
+
+    if (!checkExistUser) {
+      throw new NotFoundException('User not found');
+    }
+
+    const user = await this.usersRepository.update({
+      whereUniqueInput: {
+        id,
+      },
+      data: {
+        refreshToken,
+      },
+    });
+
+    return user;
+  }
 }

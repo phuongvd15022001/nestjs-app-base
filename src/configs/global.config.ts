@@ -23,6 +23,7 @@ export const GLOBAL_CONFIG = {
     // : [],
   },
   security: {
+    jwt_secret: process.env.JWT_SECRET,
     // expiresIn: 3600 * 24, // 24h
     // bcryptSaltOrRound: 10,
   },

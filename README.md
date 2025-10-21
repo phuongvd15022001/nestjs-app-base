@@ -102,3 +102,12 @@ npx prisma db seed
 ```bash
 npm install dayjs
 ```
+
+## Authentication and Authorization
+
+```bash
+npm install @nestjs/jwt
+npm install @nestjs/passport passport
+npm install passport-jwt
+npm install passport-local
+```

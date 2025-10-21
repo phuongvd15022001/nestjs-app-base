@@ -12,3 +12,9 @@ export const IMAGE_MIME_TYPES = [
   'image/gif',
   'image/webp',
 ];
+
+export enum ERole {
+  PUBLIC = 'PUBLIC',
+  USER = 'USER',
+  ADMIN = 'ADMIN',
+}

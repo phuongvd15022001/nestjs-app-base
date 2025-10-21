@@ -9,6 +9,7 @@ import {
   Post,
   Put,
   Query,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/request/create-user.dto';
@@ -23,6 +24,9 @@ import { UsersService } from './users.service';
 import { GetListUsersDto } from './dto/request/get-list-users.dto';
 import { BasePaginationResponseDto } from 'src/shared/dtos/base-pagination.response.dto';
 import { UpdateUserDto } from './dto/request/update-user.dto';
+import { JwtAuthGuard } from 'src/auth/guard/jwt.guard';
+import { Roles } from 'src/auth/auth.roles.decorator';
+import { ERole } from 'src/shared/constants/global.constants';
 
 @ApiTags('Users')
 @Controller('users')
@@ -30,6 +34,8 @@ export class UsersController {
   constructor(private readonly userService: UsersService) {}
 
   // GET /users
+  @UseGuards(JwtAuthGuard)
+  @Roles(ERole.USER)
   @UseInterceptors(new TransformInterceptor(UserResponseDto))
   @Get()
   @ApiOperation({ summary: 'Get all users' })
@@ -41,6 +47,8 @@ export class UsersController {
   }
 
   // GET /users/:id
+  @UseGuards(JwtAuthGuard)
+  @Roles(ERole.USER)
   @UseInterceptors(new TransformInterceptor(UserWithProductResponseDto))
   @Get(':id')
   @ApiOperation({ summary: 'Get detail user' })
@@ -50,6 +58,8 @@ export class UsersController {
   }
 
   // POST /users
+  @UseGuards(JwtAuthGuard)
+  @Roles(ERole.USER)
   @UseInterceptors(new TransformInterceptor(UserResponseDto))
   @Post()
   @ApiOperation({ summary: 'Create new user' })
@@ -59,6 +69,8 @@ export class UsersController {
   }
 
   // PUT /users/:id
+  @UseGuards(JwtAuthGuard)
+  @Roles(ERole.ADMIN)
   @UseInterceptors(new TransformInterceptor(UserResponseDto))
   @Put(':id')
   @ApiOperation({ summary: 'Update user' })
@@ -71,6 +83,8 @@ export class UsersController {
   }
 
   // DELETE /users/:id
+  @UseGuards(JwtAuthGuard)
+  @Roles(ERole.USER)
   @Delete(':id')
   @ApiOperation({ summary: 'Delete user' })
   @HttpCode(204)
@@ -79,6 +93,8 @@ export class UsersController {
   }
 
   // POST /users/many
+  @UseGuards(JwtAuthGuard)
+  @Roles(ERole.USER)
   @Post('many')
   @ApiOperation({ summary: 'Create new many users' })
   @ApiOkResponse({ type: Number })
