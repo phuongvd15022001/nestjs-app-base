@@ -6,6 +6,7 @@ import { GLOBAL_CONFIG } from './configs/global.config';
 import cors from 'cors';
 import { AllExceptionsFilter } from './filters/all.exceptions.filter';
 import { InvalidFormExceptionFilter } from './filters/invalid.form.exception.filter';
+import helmet from 'helmet';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -55,6 +56,9 @@ async function bootstrap() {
     new AllExceptionsFilter(app.get(HttpAdapterHost)),
     new InvalidFormExceptionFilter(),
   );
+
+  // Helmet
+  app.use(helmet());
 
   await app.listen(GLOBAL_CONFIG.nest.port ?? 3000);
 }
