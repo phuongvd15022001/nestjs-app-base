@@ -1,9 +1,11 @@
-import { NestFactory } from '@nestjs/core';
+import { HttpAdapterHost, NestFactory } from '@nestjs/core';
 import { AppModule } from './modules/app/app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { GLOBAL_CONFIG } from './configs/global.config';
 import cors from 'cors';
+import { AllExceptionsFilter } from './filters/all.exceptions.filter';
+import { InvalidFormExceptionFilter } from './filters/invalid.form.exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -47,6 +49,12 @@ async function bootstrap() {
       }),
     );
   }
+
+  // Exception
+  app.useGlobalFilters(
+    new AllExceptionsFilter(app.get(HttpAdapterHost)),
+    new InvalidFormExceptionFilter(),
+  );
 
   await app.listen(GLOBAL_CONFIG.nest.port ?? 3000);
 }
