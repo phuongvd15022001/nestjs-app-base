@@ -8,6 +8,7 @@ import { PrismaModule } from 'src/services/prisma/prisma.module';
 import { ProductsModule } from '../products/products.module';
 import { LoggerMiddleware } from 'src/middlewares/logger.middleware';
 import { AuthModule } from 'src/auth/auth.module';
+import { MailModule } from 'src/services/mail/mail.module';
 
 @Module({
   imports: [
@@ -19,12 +20,15 @@ import { AuthModule } from 'src/auth/auth.module';
         DATABASE_URL: Joi.string().required(),
         ENV: Joi.string().required(),
         JWT_SECRET: Joi.string().required(),
+        EMAIL: Joi.string().required(),
+        APP_PASSWORD: Joi.string().required(),
       }),
     }),
     PrismaModule,
     UsersModule,
     ProductsModule,
     AuthModule,
+    MailModule,
   ],
   controllers: [AppController],
   providers: [AppService],

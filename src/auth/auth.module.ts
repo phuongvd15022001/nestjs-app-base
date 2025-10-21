@@ -8,11 +8,13 @@ import { UsersModule } from 'src/modules/users/users.module';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { JwtRefreshStrategy } from './strategies/jwt-refresh.strategy';
 import { GLOBAL_CONFIG } from 'src/configs/global.config';
+import { MailModule } from 'src/services/mail/mail.module';
 
 @Module({
   imports: [
     PassportModule,
     UsersModule,
+    MailModule,
     JwtModule.register({
       secret: GLOBAL_CONFIG.security.jwt_secret,
     }),

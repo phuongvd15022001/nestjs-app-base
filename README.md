@@ -111,3 +111,9 @@ npm install @nestjs/passport passport
 npm install passport-jwt
 npm install passport-local
 ```
+
+## Send Mail
+
+```bash
+npm install --save @nestjs-modules/mailer nodemailer
+```
