@@ -9,6 +9,8 @@ import { ProductsModule } from '../products/products.module';
 import { LoggerMiddleware } from 'src/middlewares/logger.middleware';
 import { AuthModule } from 'src/auth/auth.module';
 import { MailModule } from 'src/services/mail/mail.module';
+import { TasksService } from 'src/schedule/tasks.service';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
@@ -29,9 +31,10 @@ import { MailModule } from 'src/services/mail/mail.module';
     ProductsModule,
     AuthModule,
     MailModule,
+    ScheduleModule.forRoot(),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, TasksService],
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {

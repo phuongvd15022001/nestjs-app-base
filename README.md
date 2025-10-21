@@ -117,3 +117,10 @@ npm install passport-local
 ```bash
 npm install --save @nestjs-modules/mailer nodemailer
 ```
+
+## Schedule
+
+```bash
+npm install @nestjs/schedule
+npm install @nestjs/common
+```
