@@ -130,3 +130,9 @@ npm install @nestjs/common
 ```bash
 npm install helmet
 ```
+
+## Upload File
+
+```bash
+npm install @aws-sdk/client-s3 multer multer-s3
+```

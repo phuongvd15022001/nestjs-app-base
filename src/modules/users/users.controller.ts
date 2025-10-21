@@ -35,7 +35,7 @@ export class UsersController {
 
   // GET /users
   @UseGuards(JwtAuthGuard)
-  @Roles(ERole.USER)
+  @Roles(ERole.PUBLIC)
   @UseInterceptors(new TransformInterceptor(UserResponseDto))
   @Get()
   @ApiOperation({ summary: 'Get all users' })

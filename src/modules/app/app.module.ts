@@ -11,6 +11,7 @@ import { AuthModule } from 'src/auth/auth.module';
 import { MailModule } from 'src/services/mail/mail.module';
 import { TasksService } from 'src/schedule/tasks.service';
 import { ScheduleModule } from '@nestjs/schedule';
+import { UploadFileModule } from '../upload-file/upload-file.module';
 
 @Module({
   imports: [
@@ -24,6 +25,10 @@ import { ScheduleModule } from '@nestjs/schedule';
         JWT_SECRET: Joi.string().required(),
         EMAIL: Joi.string().required(),
         APP_PASSWORD: Joi.string().required(),
+        AWS_ACCESS_KEY_ID: Joi.string().required(),
+        AWS_SECRET_ACCESS_KEY: Joi.string().required(),
+        AWS_S3_BUCKET: Joi.string().required(),
+        AWS_REGION: Joi.string().required(),
       }),
     }),
     PrismaModule,
@@ -31,6 +36,7 @@ import { ScheduleModule } from '@nestjs/schedule';
     ProductsModule,
     AuthModule,
     MailModule,
+    UploadFileModule,
     ScheduleModule.forRoot(),
   ],
   controllers: [AppController],

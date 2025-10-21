@@ -13,6 +13,8 @@ export const MESSAGES = {
   INVALID_NAME: 'Missing or invalid name',
   INVALID_IMAGE: 'Missing or invalid image',
   INVALID_IMAGE_SIZE: 'Missing or invalid image size',
+  INVALID_FILE_SIZE: 'Missing or invalid file size',
+  INVALID_MIMETYPE: 'Missing or invalid mine type',
   MUST_BE_GREATER_THAN_OR_EQUAL_TO: '{0} must be greater than or equal to {1}',
   REQUIRED: 'Must not be empty',
   REQUIRED_STRING: 'Must be a string',

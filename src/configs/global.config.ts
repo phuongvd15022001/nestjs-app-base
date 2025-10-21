@@ -48,14 +48,11 @@ export const GLOBAL_CONFIG = {
     },
   },
   aws: {
-    // aws_access_key_id: process.env.AWS_ACCESS_KEY_ID,
-    // aws_secret_access_key: process.env.AWS_SECRET_ACCESS_KEY,
+    aws_access_key_id: process.env.AWS_ACCESS_KEY_ID,
+    aws_secret_access_key: process.env.AWS_SECRET_ACCESS_KEY,
     s3: {
-      // bucket: process.env.AWS_S3_BUCKET,
+      bucket: process.env.AWS_S3_BUCKET,
     },
-    // region: process.env.AWS_REGION,
-    // cloudwatch_logger_enable:
-    // process.env.AWS_CLOUDWATCH_LOGGER_ENABLE === 'true',
-    // cloudwatch_log_group: process.env.AWS_CLOUDWATCH_LOG_GROUP,
+    region: process.env.AWS_REGION,
   },
 };
