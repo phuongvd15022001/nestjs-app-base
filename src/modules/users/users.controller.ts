@@ -13,7 +13,10 @@ import {
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/request/create-user.dto';
 import { CreateUsersDto } from './dto/request/create-users.dto';
-import { UserResponseDto } from './dto/response/user.response.dto';
+import {
+  UserResponseDto,
+  UserWithProductResponseDto,
+} from './dto/response/user.response.dto';
 import { TransformInterceptor } from 'src/shared/interceptors/transform.interceptor';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { UsersService } from './users.service';
@@ -38,10 +41,10 @@ export class UsersController {
   }
 
   // GET /users/:id
-  @UseInterceptors(new TransformInterceptor(UserResponseDto))
+  @UseInterceptors(new TransformInterceptor(UserWithProductResponseDto))
   @Get(':id')
   @ApiOperation({ summary: 'Get detail user' })
-  @ApiOkResponse({ type: UserResponseDto })
+  @ApiOkResponse({ type: UserWithProductResponseDto })
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.userService.findOne(id);
   }
