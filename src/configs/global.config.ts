@@ -1,4 +1,5 @@
 export const GLOBAL_CONFIG = {
+  env: process.env.ENV,
   nest: {
     port: process.env.PORT,
   },

@@ -13,6 +13,8 @@ import { PrismaModule } from 'src/services/prisma/prisma.module';
       envFilePath: `.env`,
       validationSchema: Joi.object({
         PORT: Joi.number().required(),
+        DATABASE_URL: Joi.string().required(),
+        ENV: Joi.string().required(),
       }),
     }),
     PrismaModule,

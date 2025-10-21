@@ -60,3 +60,7 @@ npm install cors
 ## Seed Prisma
 
 npx prisma db seed
+
+## Dayjs
+
+npm install dayjs
