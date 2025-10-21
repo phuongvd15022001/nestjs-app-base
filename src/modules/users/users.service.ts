@@ -12,12 +12,14 @@ import { CreateUserDto } from './dto/request/create-user.dto';
 import { UpdateUserDto } from './dto/request/update-user.dto';
 import { CreateUsersDto } from './dto/request/create-users.dto';
 import { PrismaService } from 'src/services/prisma/prisma.service';
+import { ProductsService } from '../products/products.service';
 
 @Injectable()
 export class UsersService {
   constructor(
     private usersRepository: UsersRepository,
     private prisma: PrismaService,
+    private productsService: ProductsService,
   ) {}
 
   async findAll(params: { getListUsersDto: GetListUsersDto }) {
