@@ -1,7 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsArray, ValidateNested } from 'class-validator';
+import { ValidateNested } from 'class-validator';
 import { CreateUserDto } from './create-user.dto';
 import { Type } from 'class-transformer';
+import { ArrayField } from 'src/shared/decorators/dto.decorator';
 
 export class CreateUsersDto {
   @ApiProperty({
@@ -12,8 +13,8 @@ export class CreateUsersDto {
       { email: 'user2@example.com', password: 'abcdef', name: 'user2' },
     ],
   })
-  @IsArray()
   @ValidateNested({ each: true })
   @Type(() => CreateUserDto)
+  @ArrayField(CreateUserDto)
   users: CreateUserDto[];
 }
