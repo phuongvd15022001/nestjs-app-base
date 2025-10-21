@@ -132,6 +132,19 @@ export class UsersService {
   }
 
   async createMany(createUsersDto: CreateUsersDto) {
+    const listEmails = createUsersDto.users.map((item) => item.email);
+    const checkExistEmail = await this.usersRepository.findAll({
+      where: {
+        email: {
+          in: listEmails,
+        },
+      },
+    });
+
+    if (checkExistEmail) {
+      throw new ConflictException('Email already exists');
+    }
+
     const result = await this.prisma.$transaction(async (transaction) => {
       return await this.usersRepository.createManyWithTransaction({
         data: createUsersDto.users,

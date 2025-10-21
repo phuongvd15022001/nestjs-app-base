@@ -80,7 +80,7 @@ export class UsersController {
 
   // POST /users/many
   @Post('many')
-  @ApiOperation({ summary: 'Create new user' })
+  @ApiOperation({ summary: 'Create new many users' })
   @ApiOkResponse({ type: Number })
   createManyUsers(@Body() createUsersDto: CreateUsersDto) {
     return this.userService.createMany(createUsersDto);

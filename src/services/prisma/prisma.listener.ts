@@ -3,7 +3,9 @@ import { GLOBAL_CONFIG } from 'src/configs/global.config';
 
 const onFind = (params, next): any => {
   if (
-    GLOBAL_CONFIG.prisma.soft_delete_model_names.includes(String(params.model))
+    GLOBAL_CONFIG.prisma.soft_delete_model_names.includes(
+      params.model as string,
+    )
   ) {
     if (params.action === 'findUnique' || params.action === 'findFirst') {
       // Change to findFirst - you cannot filter
@@ -40,7 +42,9 @@ const onFind = (params, next): any => {
 const onDeleted = (params, next): any => {
   // Check incoming query type
   if (
-    GLOBAL_CONFIG.prisma.soft_delete_model_names.includes(String(params.model))
+    GLOBAL_CONFIG.prisma.soft_delete_model_names.includes(
+      params.model as string,
+    )
   ) {
     if (params.action == 'delete') {
       // Delete queries
