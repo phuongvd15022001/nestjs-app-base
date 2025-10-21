@@ -1,9 +1,15 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { UsersRepository } from './users.repository';
 import { BasePaginationResponseDto } from 'src/shared/dtos/base-pagination.response.dto';
 import { GetListUsersDto } from './dto/request/get-list-users.dto';
 import { CommonHelpers } from 'src/shared/helpers/common.helpers';
 import { Prisma } from '@prisma/client';
+import { CreateUserDto } from './dto/request/create-user.dto';
+import { UpdateUserDto } from './dto/request/update-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -41,5 +47,82 @@ export class UsersService {
       getListUsersDto.page,
       total,
     );
+  }
+
+  async findOne(id: number) {
+    const user = await this.usersRepository.findOne({
+      whereUniqueInput: {
+        id,
+      },
+      includes: {
+        Product: true,
+      },
+    });
+
+    if (user == null) {
+      throw new NotFoundException('User not found');
+    }
+
+    return user;
+  }
+
+  async create(createUserDto: CreateUserDto) {
+    const checkExistEmail = await this.usersRepository.findOne({
+      whereUniqueInput: {
+        email: createUserDto.email,
+      },
+    });
+
+    if (checkExistEmail) {
+      throw new ConflictException('Email already exists');
+    }
+
+    const user = await this.usersRepository.create({ data: createUserDto });
+
+    return user;
+  }
+
+  async update(id: number, updateUserDto: UpdateUserDto) {
+    if (updateUserDto.email) {
+      const checkExistEmail = await this.usersRepository.findOne({
+        whereUniqueInput: {
+          email: updateUserDto.email,
+        },
+      });
+
+      if (checkExistEmail && checkExistEmail.id != id) {
+        throw new ConflictException('Email already exists');
+      }
+    }
+
+    const checkExistUser = await this.usersRepository.findOne({
+      whereUniqueInput: { id },
+    });
+
+    if (!checkExistUser) {
+      throw new NotFoundException('User not found');
+    }
+
+    const user = await this.usersRepository.update({
+      whereUniqueInput: {
+        id,
+      },
+      data: updateUserDto,
+    });
+
+    return user;
+  }
+
+  async remove(id: number) {
+    try {
+      await this.usersRepository.delete({
+        whereUniqueInput: {
+          id,
+        },
+      });
+    } catch (error) {
+      console.error(error);
+      throw new NotFoundException(`User with ID ${id} not found`);
+    }
   }
 }
