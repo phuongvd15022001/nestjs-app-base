@@ -10,10 +10,15 @@ import { CommonHelpers } from 'src/shared/helpers/common.helpers';
 import { Prisma } from '@prisma/client';
 import { CreateUserDto } from './dto/request/create-user.dto';
 import { UpdateUserDto } from './dto/request/update-user.dto';
+import { CreateUsersDto } from './dto/request/create-users.dto';
+import { PrismaService } from 'src/services/prisma/prisma.service';
 
 @Injectable()
 export class UsersService {
-  constructor(private usersRepository: UsersRepository) {}
+  constructor(
+    private usersRepository: UsersRepository,
+    private prisma: PrismaService,
+  ) {}
 
   async findAll(params: { getListUsersDto: GetListUsersDto }) {
     const { getListUsersDto } = params;
@@ -124,5 +129,16 @@ export class UsersService {
       console.error(error);
       throw new NotFoundException(`User with ID ${id} not found`);
     }
+  }
+
+  async createMany(createUsersDto: CreateUsersDto) {
+    const result = await this.prisma.$transaction(async (transaction) => {
+      return await this.usersRepository.createManyWithTransaction({
+        data: createUsersDto.users,
+        transaction,
+      });
+    });
+
+    return result.count;
   }
 }
