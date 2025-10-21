@@ -15,6 +15,12 @@ export const GLOBAL_CONFIG = {
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     credentials: true,
   },
+  prisma: {
+    soft_delete_model_names: ['Users'],
+    // log_levels: process.env.PRISMA_LOG_LEVELS
+    // ? process.env.PRISMA_LOG_LEVELS.split(',')
+    // : [],
+  },
   security: {
     // expiresIn: 3600 * 24, // 24h
     // bcryptSaltOrRound: 10,
@@ -38,11 +44,6 @@ export const GLOBAL_CONFIG = {
       // pool: true,
       // maxConnections: 5,
     },
-  },
-  prisma: {
-    // log_levels: process.env.PRISMA_LOG_LEVELS
-    // ? process.env.PRISMA_LOG_LEVELS.split(',')
-    // : [],
   },
   aws: {
     // aws_access_key_id: process.env.AWS_ACCESS_KEY_ID,
