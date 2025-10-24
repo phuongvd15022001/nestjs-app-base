@@ -11,7 +11,7 @@ export class AppService {
   }
 
   async setCache() {
-    await this.cacheManager.set('greeting', 'Redis Cache!', 3600);
+    await this.cacheManager.set('greeting', 'Redis Cache!');
     return 'Save cache success!';
   }
 

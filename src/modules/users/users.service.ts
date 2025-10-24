@@ -1,5 +1,6 @@
 import {
   ConflictException,
+  Inject,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -13,6 +14,8 @@ import { UpdateUserDto } from './dto/request/update-user.dto';
 import { CreateUsersDto } from './dto/request/create-users.dto';
 import { PrismaService } from 'src/services/prisma/prisma.service';
 import { ProductsService } from '../products/products.service';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import type { Cache } from 'cache-manager';
 
 @Injectable()
 export class UsersService {
@@ -20,10 +23,20 @@ export class UsersService {
     private usersRepository: UsersRepository,
     private prisma: PrismaService,
     private productsService: ProductsService,
+    @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {}
 
   async findAll(params: { getListUsersDto: GetListUsersDto }) {
     const { getListUsersDto } = params;
+
+    const cacheKey = `users:${JSON.stringify(getListUsersDto)}`;
+
+    const cached = await this.cacheManager.get(cacheKey);
+
+    if (cached) {
+      return cached;
+    }
+
     const { take, skip, sortByField } = CommonHelpers.transformPaginationQuery(
       getListUsersDto,
       Prisma.UserScalarFieldEnum,
@@ -49,11 +62,15 @@ export class UsersService {
 
     const total = await this.usersRepository.count({ where });
 
-    return BasePaginationResponseDto.convertToPaginationResponse(
+    const result = BasePaginationResponseDto.convertToPaginationResponse(
       [users, users.length],
       getListUsersDto.page,
       total,
     );
+
+    await this.cacheManager.set(cacheKey, result);
+
+    return result;
   }
 
   async findOne(id: number) {
