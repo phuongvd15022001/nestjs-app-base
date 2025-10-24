@@ -12,6 +12,8 @@ import { MailModule } from 'src/services/mail/mail.module';
 import { TasksService } from 'src/schedule/tasks.service';
 import { ScheduleModule } from '@nestjs/schedule';
 import { UploadFileModule } from '../upload-file/upload-file.module';
+import { CacheModule } from '@nestjs/cache-manager';
+import { redisConfig } from 'src/configs/redis.config';
 
 @Module({
   imports: [
@@ -30,6 +32,10 @@ import { UploadFileModule } from '../upload-file/upload-file.module';
         AWS_S3_BUCKET: Joi.string().required(),
         AWS_REGION: Joi.string().required(),
       }),
+    }),
+    CacheModule.registerAsync({
+      useFactory: () => redisConfig,
+      isGlobal: true,
     }),
     PrismaModule,
     UsersModule,

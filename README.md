@@ -136,3 +136,23 @@ npm install helmet
 ```bash
 npm install @aws-sdk/client-s3 multer multer-s3
 ```
+
+## Redis
+
+```bash
+$ Docker
+docker run --name redis-local -p 6379:6379 -d redis
+
+$ Install Redis macOS
+brew install redis
+brew services start redis
+
+$ Install Redis Windows
+https://github.com/microsoftarchive/redis/releases
+redis-server
+
+@ Package
+npm install cache-manager ioredis @nestjs/cache-manager
+npm install cache-manager-ioredis-yet
+
+```

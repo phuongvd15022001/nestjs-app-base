@@ -11,4 +11,14 @@ export class AppController {
   getHello(): string {
     return this.appService.getHello();
   }
+
+  @Get('set')
+  setCache() {
+    return this.appService.setCache();
+  }
+
+  @Get('get')
+  getCache() {
+    return this.appService.getCache();
+  }
 }
