@@ -156,3 +156,9 @@ npm install cache-manager ioredis @nestjs/cache-manager
 npm install cache-manager-ioredis-yet
 
 ```
+
+## BullMQ
+
+```bash
+npm install @nestjs/bullmq bullmq ioredis
+```

@@ -8,12 +8,12 @@ import { PrismaModule } from 'src/services/prisma/prisma.module';
 import { ProductsModule } from '../products/products.module';
 import { LoggerMiddleware } from 'src/middlewares/logger.middleware';
 import { AuthModule } from 'src/auth/auth.module';
-import { MailModule } from 'src/services/mail/mail.module';
 import { TasksService } from 'src/schedule/tasks.service';
 import { ScheduleModule } from '@nestjs/schedule';
 import { UploadFileModule } from '../upload-file/upload-file.module';
 import { CacheModule } from '@nestjs/cache-manager';
 import { redisConfig } from 'src/configs/redis.config';
+import { WorkerModule } from 'src/bull/worker.module';
 
 @Module({
   imports: [
@@ -31,6 +31,8 @@ import { redisConfig } from 'src/configs/redis.config';
         AWS_SECRET_ACCESS_KEY: Joi.string().required(),
         AWS_S3_BUCKET: Joi.string().required(),
         AWS_REGION: Joi.string().required(),
+        REDIS_HOST: Joi.string().required(),
+        REDIS_PORT: Joi.string().required(),
       }),
     }),
     CacheModule.registerAsync({
@@ -41,9 +43,9 @@ import { redisConfig } from 'src/configs/redis.config';
     UsersModule,
     ProductsModule,
     AuthModule,
-    MailModule,
     UploadFileModule,
     ScheduleModule.forRoot(),
+    WorkerModule,
   ],
   controllers: [AppController],
   providers: [AppService, TasksService],

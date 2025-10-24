@@ -1,22 +1,17 @@
-import { MailerService } from '@nestjs-modules/mailer';
+import { InjectQueue } from '@nestjs/bullmq';
 import { Injectable } from '@nestjs/common';
 import { User } from '@prisma/client';
+import { Queue } from 'bullmq';
+import { EBullQueue } from 'src/shared/constants/queue.constants';
 
 @Injectable()
 export class MailService {
-  constructor(private mailerService: MailerService) {}
+  constructor(@InjectQueue(EBullQueue.MAIL) private emailQueue: Queue) {}
 
   async sendUserConfirmation(user: User, token: string) {
-    const url = `example.com/auth/confirm?token=${token}`;
-
-    await this.mailerService.sendMail({
-      to: user.email,
-      subject: 'Welcome to Nice App! Confirm your Email',
-      template: './confirmation',
-      context: {
-        name: user.name,
-        url,
-      },
+    return await this.emailQueue.add('send-mail', {
+      user,
+      token,
     });
   }
 }
