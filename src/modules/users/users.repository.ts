@@ -166,4 +166,41 @@ export class UsersRepository {
 
     return result;
   }
+
+  async updateManyWithBatchSize(params: {
+    transaction: Omit<
+      PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs>,
+      '$connect' | '$disconnect' | '$on' | '$transaction' | '$use' | '$extends'
+    >;
+  }) {
+    const { transaction } = params;
+
+    const batchSize = 10000;
+    let lastId = 0;
+
+    while (true) {
+      const users = await this.prisma.user.findMany({
+        where: { id: { gt: lastId } },
+        take: batchSize,
+        orderBy: { id: 'asc' },
+      });
+
+      if (users.length === 0) break;
+
+      const chunkSize = 1000;
+      for (let i = 0; i < users.length; i += chunkSize) {
+        const chunk = users.slice(i, i + chunkSize);
+        await Promise.all(
+          chunk.map((u) =>
+            transaction.user.update({
+              where: { id: u.id },
+              data: { role: 'USER' },
+            }),
+          ),
+        );
+      }
+
+      lastId = users[users.length - 1].id;
+    }
+  }
 }
