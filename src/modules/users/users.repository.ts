@@ -144,4 +144,26 @@ export class UsersRepository {
       where,
     });
   }
+
+  async getAllWithBatchSize() {
+    const result: User[] = [];
+    const batchSize = 10000;
+    let lastId = 0;
+
+    while (true) {
+      const users = await this.prisma.user.findMany({
+        where: { id: { gt: lastId } },
+        take: batchSize,
+        orderBy: { id: 'asc' },
+      });
+
+      result.push(...users);
+
+      if (users.length === 0) break;
+
+      lastId = users[users.length - 1].id;
+    }
+
+    return result;
+  }
 }
