@@ -30,6 +30,8 @@ model User {
   deletedAt    DateTime?
 
   Product      Product[]
+
+  @@index([name])
 }
 
 model Product {
