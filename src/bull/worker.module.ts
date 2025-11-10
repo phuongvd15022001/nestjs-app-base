@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { BullModule } from '@nestjs/bullmq';
-import { MailProcessor } from './Processor/mail.processor';
+import { MailProcessor } from './processor/mail.processor';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { GLOBAL_CONFIG } from 'src/configs/global.config';
 import { join } from 'path';
